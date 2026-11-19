@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Amalia Valiente, portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/*
+VOICE: quiet, exact, personal; a technical notebook rather than a landing page.
+IDEA: the two-column portfolio pattern (fixed identity column, scrolling work column) set like a printed paper.
+PICTURE: a small routing figure that draws itself in the fixed column; each project shows its real UI recreated.
+COLOUR and TYPE: light paper only, black ink, one deep blue from the CV. Newsreader for names and titles, Hanken Grotesk for text.
+LAYOUT: left column sticky on desktop (identity, section index, Fig. 1, links); right column holds about, work, experience, contact.
+*/
+:root{color-scheme:light;--paper:#fbfbf9;--ink:#16181d;--muted:#5d6370;--faint:#8b909b;--blue:#123f7a;--rule:#e2e2dc;--plate:#f1f1ec;--red:#c23a2b;--green:#1d7a52}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:40px}
+body{margin:0;background:var(--paper);color:var(--ink);font:16.5px/1.65 "Hanken Grotesk",system-ui,sans-serif;overflow-x:clip;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:3px}
+h1,h2,h3{font-family:Newsreader,Georgia,serif;font-weight:500;line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0 0 1em}
+.page{max-width:1240px;margin:0 auto;padding:0 clamp(20px,5vw,72px);display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.25fr);gap:clamp(40px,6vw,96px)}
+
+/* left column */
+.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:clamp(48px,8vh,88px) 0 40px}
+.side h1{font-size:clamp(38px,4.2vw,54px);letter-spacing:-.012em}
+.role{font-size:18px;margin:14px 0 10px;color:var(--ink)}
+.tag{color:var(--muted);max-width:34ch;margin:0}
+.lang{display:inline-flex;gap:2px;margin-top:22px;border:1px solid var(--rule);border-radius:999px;padding:2px;align-self:flex-start;background:#fff}
+.lang button{font:600 12.5px "Hanken Grotesk",sans-serif;border:0;background:none;color:var(--muted);padding:6px 12px;border-radius:999px;cursor:pointer;min-height:30px}
+.lang button[aria-pressed=true]{background:var(--ink);color:#fff}
+.toc{list-style:none;padding:0;margin:40px 0 0}
+.toc a{display:flex;align-items:center;gap:14px;padding:7px 0;text-decoration:none;color:var(--faint);font-size:14.5px;font-weight:500}
+.toc a::before{content:"";height:1px;width:28px;background:currentColor;transition:width .2s}
+.toc a:hover,.toc a.on{color:var(--ink)}.toc a.on::before{width:60px;background:var(--blue)}
+figure{margin:0}.minifig{margin-top:auto;padding-top:28px}
+.side{overflow-y:auto;scrollbar-width:none}
+@media(max-height:860px) and (min-width:961px){.side{padding-top:36px;padding-bottom:24px}.toc{margin-top:22px}.toc a{padding:4px 0}.side #vrp{max-width:200px}.minifig figcaption{display:none}.lang{margin-top:14px}}
+#vrp{width:100%;max-width:330px;height:auto;display:block}
+#vrp .route{fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.6s cubic-bezier(.6,.1,.3,1) forwards}
+#vrp .cust{fill:var(--paper);stroke:var(--ink);stroke-width:1.5}
+@keyframes draw{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){#vrp .route{animation:none;stroke-dashoffset:0}html{scroll-behavior:auto}}
+.minifig figcaption{font-size:13px;color:var(--muted);max-width:40ch;margin-top:8px;line-height:1.5}
+.social{display:flex;gap:18px;flex-wrap:wrap;margin-top:20px;font-size:14.5px}
+.social a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--rule)}.social a:hover{color:var(--blue);border-color:var(--blue)}
+
+/* right column */
+main{padding:clamp(48px,8vh,88px) 0 60px}
+section{margin-bottom:clamp(72px,10vw,120px)}
+.h{font-family:"Hanken Grotesk",sans-serif;font-size:14px;font-weight:600;color:var(--ink);margin:0 0 26px;display:flex;align-items:baseline;gap:10px}
+.h span{font-family:Newsreader,serif;font-weight:400;font-size:17px;color:var(--blue)}
+.about p{color:var(--muted);max-width:60ch}.about b{color:var(--ink);font-weight:500}
+
+.proj{display:block;margin-bottom:64px;text-decoration:none}
+.proj h3{font-size:clamp(24px,2.4vw,30px);margin:18px 0 4px}
+.meta{font-size:14px;color:var(--faint);margin-bottom:10px}
+.proj p{color:var(--muted);max-width:62ch}
+.pills{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0;margin:12px 0 10px}
+.pills li{font-size:12.5px;font-weight:500;color:var(--blue);background:#e9eef6;border-radius:999px;padding:3px 10px}
+.more{font-size:14.5px;font-weight:500;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink)}
+.more:hover{color:var(--blue);border-color:var(--blue)}
+.cap{font-size:13px;color:var(--faint);margin-top:8px}
+
+.shot{position:relative;overflow:hidden;border-radius:8px;border:1px solid var(--rule);background:#fff;box-shadow:0 22px 44px -30px rgba(22,24,29,.35)}
+.shot.phone{max-width:300px;margin-inline:auto;border-radius:24px;border:7px solid #1d2233}
+.phonewrap{background:var(--plate);border-radius:8px;padding:28px 20px}
+.app{position:absolute;top:0;left:0;transform-origin:0 0;color:#222;font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+.chrome{height:34px;background:#eceef3;border-bottom:1px solid #d9dce4;display:flex;align-items:center;gap:7px;padding:0 12px}
+.chrome i{width:11px;height:11px;border-radius:50%;background:#d0d3dc}
+.chrome span{margin-left:14px;background:#fff;border-radius:5px;padding:3px 12px;font-size:12px;color:#5a6070;flex:1;max-width:340px}
+
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+.nrrow{display:grid;grid-template-columns:8.5em minmax(0,1fr) 3.4em;gap:12px;align-items:center;padding:7px 0;border-bottom:1px solid var(--rule)}
+.nrrow:last-child{border:0}.nrtrack{position:relative;height:18px}.nrtrack i{position:absolute;top:4px;width:11px;height:11px;border-radius:50%;transform:translateX(-50%);border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+.nrtrack b{position:absolute;top:9px;height:1px;background:var(--rule)}.nrrow span:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--blue);font-weight:600}
+.stbtn{display:inline-block;text-align:center;border:1px solid #d6d6d9;border-radius:8px;padding:6px 12px;background:#fff;font-size:13.5px;white-space:nowrap}
+.formula{background:#fff;border:1px solid var(--rule);border-radius:8px;padding:20px 22px;font-family:Newsreader,serif;font-size:18px}
+.formula table{width:100%;border-collapse:collapse}
+.formula td{padding:7px 4px;border-bottom:1px solid var(--rule)}
+.formula tr:last-child td{border:0}
+.formula td:first-child{color:var(--faint);width:2.6em;font-size:15px}
+.formula td:last-child{text-align:right;color:var(--faint);font-size:15px;white-space:nowrap}
+.formula tr.q td{background:#fbefed}.formula tr.q td:nth-child(2){color:var(--red)}
+.formula .q-l{font-family:"Hanken Grotesk",sans-serif;font-size:12px;color:var(--red);margin-left:8px}
+
+.jobs{list-style:none;padding:0;margin:0}
+.jobs li{display:grid;grid-template-columns:8.5em minmax(0,1fr);gap:18px;padding:0 0 30px}
+.jobs time{font-size:13.5px;color:var(--faint);padding-top:3px;white-space:nowrap}
+.jobs h3{font-family:"Hanken Grotesk",sans-serif;font-size:16.5px;font-weight:600;margin-bottom:6px}
+.jobs p{color:var(--muted);margin:0}
+
+.idx{list-style:none;padding:0;margin:0;border-top:1px solid var(--rule)}
+.idx li{border-bottom:1px solid var(--rule)}
+.idx a{display:grid;grid-template-columns:3.5em minmax(0,1fr) auto;gap:16px;padding:14px 0;text-decoration:none;align-items:baseline}
+.idx .y{color:var(--faint);font-size:13.5px;font-variant-numeric:tabular-nums}
+.idx .n{font-family:Newsreader,serif;font-size:19px}
+.idx .d{display:block;color:var(--muted);font-size:14.5px}
+.idx .s{font-size:13px;color:var(--faint);text-align:right}
+.idx a:hover .n{color:var(--blue)}
+
+dl.sk{margin:0}
+dl.sk div{display:grid;grid-template-columns:8.5em minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--rule)}
+dl.sk dt{font-size:13.5px;color:var(--faint);padding-top:2px}dl.sk dd{margin:0}
+
+.contact h2{font-size:clamp(30px,3.6vw,42px);max-width:18ch;margin-bottom:16px}
+.contact p{color:var(--muted);max-width:52ch}
+.mail{font-family:Newsreader,serif;font-size:clamp(20px,2.4vw,26px);color:var(--blue);text-decoration:none;border-bottom:1px solid currentColor;word-break:break-all}
+footer{font-size:13px;color:var(--faint);padding-top:40px}
+
+@media(max-width:960px){
+ .page{grid-template-columns:minmax(0,1fr);gap:0}
+ .side{position:static;height:auto;padding-bottom:8px}
+ .toc{display:none}
+ .minifig{margin-top:32px}
+ main{padding-top:48px}
+}
+@media(max-width:560px){body{font-size:16px}.jobs li,dl.sk div{grid-template-columns:minmax(0,1fr);gap:2px}
+ .idx a{grid-template-columns:3em minmax(0,1fr)}.idx .s{grid-column:2;text-align:left}.formula{font-size:16px;padding:14px}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="side">
+  <h1>Amalia Beatriz Valiente Hinojosa</h1>
+  <p class="role" data-t="role">Ingeniera de software: machine learning, datos y backend</p>
+  <p class="tag" data-t="tag">Entreno modelos, construyo pipelines de datos y backends fiables, y uso optimización matemática cuando hay decisiones que tomar.</p>
+  <div class="lang" role="group" aria-label="Idioma / Language"><button type="button" data-lang="es" aria-pressed="true">ES</button><button type="button" data-lang="en" aria-pressed="false">EN</button></div>
+  <ul class="toc">
+    <li><a href="#sobre" data-t="n0">Sobre mí</a></li>
+    <li><a href="#proyectos" data-t="n1">Proyectos</a></li>
+    <li><a href="#experiencia" data-t="n3">Experiencia</a></li>
+    <li><a href="#contacto" data-t="n4">Contacto</a></li>
+  </ul>
+  <figure class="minifig">
+    <svg id="vrp" viewBox="0 0 600 440" role="img" aria-labelledby="vrpcap"></svg>
+    <figcaption id="vrpcap" data-t="f1">Fig. 1. Tres vehículos, catorce clientes, un depósito. Mi tesis estudia qué restricciones de estos modelos sobran.</figcaption>
+  </figure>
+  <div class="social">
+    <a href="https://github.com/amabe418">GitHub</a>
+    <a href="https://www.linkedin.com/in/amalia-valiente-a809a7302">LinkedIn</a>
+    <a href="mailto:valienteamalia418@gmail.com">Email</a>
+  </div>
+</header>
+
+<main>
+  <section id="sobre" class="about">
+    <h2 class="h"><span>§1</span><span style="font:inherit;color:inherit" data-t="n0">Sobre mí</span></h2>
+    <p data-t="ab1">Me gradué en Ciencia de la Computación en la <b>Universidad de La Habana</b> en 2026. Trabajo en tres frentes que se tocan: <b>machine learning</b> (meta-aprendizaje, optimización bayesiana de hiperparámetros, NLP y RAG), <b>análisis e ingeniería de datos</b> (EDA, estadística, pipelines de streaming con Kafka y Spark) y <b>backend</b> (APIs REST en Python y .NET).</p>
+    <p data-t="ab2">Profesionalmente he sido desarrolladora backend en <b>Citmatel</b> y en <b>DATYS</b>, donde construí y probé APIs y monté pipelines de CI/CD. Mi tesis trató sobre <b>restricciones redundantes en modelos de rutas de vehículos</b>, y de ahí viene mi gusto por los modelos que se pueden medir y mejorar.</p>
+  </section>
+
+  <section id="proyectos">
+    <h2 class="h"><span>§2</span><span style="font:inherit;color:inherit" data-t="n1">Proyectos</span></h2>
+
+    <article class="proj">
+      <div class="formula" style="font-family:'Hanken Grotesk',sans-serif;font-size:15px">
+        <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px">
+          <b style="font-weight:600" data-t="m.ct">Regret normalizado tras 30 evaluaciones</b>
+          <span style="color:var(--faint);font-size:13px" data-t="m.lo">Menor es mejor</span>
+        </div>
+        <div id="nr"></div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:10px">
+          <span><i class="dot" style="background:var(--blue)"></i>FSBO</span><span><i class="dot" style="background:#9aa0aa"></i>Random</span><span><i class="dot" style="background:var(--red)"></i>GP-RS</span>
+        </div>
+      </div>
+      <div class="cap" data-t="m.c">Fig. 2. Resultados del módulo FSBO con validación cruzada K-fold, tal como se reportan en README_FSBO.md del repositorio.</div>
+      <h3 data-t="m.h">Meta-aprendizaje para AutoML: MetaBu + FSBO</h3>
+      <div class="meta" data-t="m.k">Machine learning, 2026. Proyecto en equipo.</div>
+      <p data-t="m.p1">Elegir el algoritmo y sus hiperparámetros para un dataset nuevo es caro: cada prueba exige entrenar un modelo completo. El proyecto reutiliza lo aprendido en tareas anteriores para empezar mejor y llegar antes.</p>
+      <p data-t="m.p2"><b>MetaBu</b> aprende meta-features de los datasets para recomendar qué algoritmos y configuraciones probar primero. <b>FSBO</b> (Few-Shot Bayesian Optimization) preentrena un surrogate Deep Kernel GP sobre muchas tareas y lo transfiere a la nueva, de modo que la optimización bayesiana necesita pocas evaluaciones. Lo evaluamos contra búsqueda aleatoria y GP-RS en AdaBoost, Random Forest, SVM y AutoSklearn.</p>
+      <ul class="pills"><li>Python</li><li>PyTorch</li><li>GPyTorch</li><li>scikit-learn</li><li>Pandas</li><li data-t="m.t1">Optimización bayesiana</li><li>Meta-learning</li></ul>
+      <a class="more" href="https://github.com/amabe418/MetaLearning" data-t="repo">Ver repositorio</a>
+    </article>
+
+    <article class="proj">
+      <div class="shot" data-w="1000">
+        <div class="app" style="width:1000px;background:#f8f9fa;font-family:'Segoe UI',Tahoma,sans-serif">
+          <div class="chrome"><i></i><i></i><i></i><span>localhost:5001</span></div>
+          <div style="background:#212529;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:12px 18px;box-shadow:0 2px 4px rgba(0,0,0,.1)">
+            <span style="font-weight:600;font-size:19px"><svg width="16" height="18" viewBox="0 0 16 18" style="vertical-align:-2px;margin-right:8px"><path d="M10 0 1 10h6l-2 8 10-11H9z" fill="#fff"/></svg>Energy Consumption Dashboard</span>
+            <span style="font-size:13px"><span style="background:#198754;border-radius:6px;padding:6px 10px;margin-right:10px;font-weight:500">● Online</span>Última actualización: 14:32:05</span>
+          </div>
+          <div style="padding:22px 18px">
+            <div id="encards" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px"></div>
+            <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px">
+              <div style="background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.1);overflow:hidden"><div style="background:#0d6efd;color:#fff;padding:12px 18px;font-weight:600;font-size:16px">Evolución Temporal - Potencia Activa</div><svg id="enline" viewBox="0 0 600 230" width="100%" style="display:block;padding:12px"></svg></div>
+              <div style="background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.1);overflow:hidden"><div style="background:#198754;color:#fff;padding:12px 18px;font-weight:600;font-size:16px">Distribución por Hora</div><svg id="enbars" viewBox="0 0 280 230" width="100%" style="display:block;padding:12px"></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cap" data-t="d.c">Fig. 3. Dashboard en Flask, recreado desde board/templates/index.html. Valores de ejemplo.</div>
+      <h3 data-t="d.h">Predicción de consumo eléctrico</h3>
+      <div class="meta" data-t="d.k">Ingeniería de datos, 2025. Con Noel Pérez Calvo.</div>
+      <p data-t="d.p">Pipeline en tiempo real sobre más de dos millones de mediciones: un productor en Python publica en Kafka, Spark Structured Streaming transforma y guarda en HDFS como Parquet, Hive permite consultas SQL y un dashboard muestra los datos en vivo. Todo corre en Docker Compose.</p>
+      <ul class="pills"><li>Python</li><li>Kafka</li><li>Spark</li><li>HDFS</li><li>Hive</li><li>Docker</li></ul>
+      <a class="more" href="https://github.com/amabe418/PLVD-Predicting-energy-consumption" data-t="repo">Ver repositorio</a>
+    </article>
+
+    <article class="proj">
+      <div class="shot" data-w="900">
+        <div class="app" style="width:900px;background:#fff">
+          <div class="chrome"><i></i><i></i><i></i><span>localhost:8501</span></div>
+          <div style="padding:34px 90px 26px;text-align:center">
+            <svg width="62" height="62" viewBox="0 0 64 64" aria-hidden="true"><path d="M14 12h36L34 34v16h8v4H22v-4h8V34z" fill="#e7f0fb" stroke="#1E3A8A" stroke-width="2.5" stroke-linejoin="round"/><path d="M20 18h24l-12 12z" fill="#7cc4a4"/><circle cx="44" cy="12" r="6" fill="#f2c94c" stroke="#1E3A8A" stroke-width="2"/></svg>
+            <div style="font:600 40px Georgia,serif;color:#1E3A8A;margin-top:4px">Cocktail Assistant</div>
+            <div style="color:#555;font-size:16px;margin:4px 0 26px">Tu asistente personal de cócteles</div>
+            <div style="border:1px solid #ddd;border-radius:8px;box-shadow:0 2px 4px rgba(0,0,0,.05);padding:13px 15px;font-size:18px;text-align:left;color:#333">¿Cómo preparar un Mojito?</div>
+            <div style="display:inline-block;background:#1E88E5;color:#fff;border-radius:8px;padding:10px 24px;font-size:16px;font-weight:500;margin-top:10px">Buscar</div>
+            <div style="text-align:left;border-left:3px solid #1E88E5;padding-left:16px;margin-top:26px;color:#333;font-size:16px;line-height:1.45">
+              <p style="margin:0 0 10px"><strong>Mojito</strong> es un cóctel cubano de ron blanco, refrescante y fácil de preparar.</p>
+              <p style="margin:0 0 6px"><strong>Ingredientes</strong></p>
+              <ul style="margin:0 0 10px;padding-left:22px"><li>5 cl de ron blanco</li><li>3 cl de jugo de lima fresco</li><li>2 cucharaditas de azúcar</li><li>6 a 8 hojas de hierbabuena y soda</li></ul>
+              <p style="margin:0"><strong>Preparación:</strong> machaca suavemente la hierbabuena con el azúcar y la lima, añade el ron y hielo picado, y completa con soda.</p>
+            </div>
+            <div style="border-top:1px solid #eee;margin-top:24px;padding-top:12px;text-align:left;color:#31333f;font-size:15px">› Búsquedas recientes</div>
+            <div style="color:#666;font-size:13px;margin-top:22px">© 2025 Cocktail Assistant | Sistema de Información sobre Cócteles</div>
+          </div>
+        </div>
+      </div>
+      <div class="cap" data-t="b.c">Fig. 4. Interfaz en Streamlit, recreada desde app/app.py. Respuesta de ejemplo.</div>
+      <h3>CocktailAssistant</h3>
+      <div class="meta" data-t="b.k">Recuperación de información y LLMs, 2025. Equipo de cuatro.</div>
+      <p data-t="b.p">Asistente para bartenders basado en RAG y varios agentes: un crawler recolecta el conocimiento, una ontología lo estructura, embeddings y FAISS recuperan los fragmentos relevantes, metaheurísticas ajustan el ranking y Mistral redacta la respuesta.</p>
+      <ul class="pills"><li>Python</li><li>Streamlit</li><li>RAG</li><li>FAISS</li><li>Mistral API</li></ul>
+      <a class="more" href="https://github.com/amabe418/CocktailAssistant" data-t="repo">Ver repositorio</a>
+    </article>
+
+    <article class="proj">
+      <div class="formula">
+        <table>
+          <tr><td>(1)</td><td>Σ<sub>j</sub> x<sub>ij</sub> = 1</td><td>∀ i ∈ C</td></tr>
+          <tr><td>(2)</td><td>Σ<sub>i</sub> x<sub>ij</sub> = 1</td><td>∀ j ∈ C</td></tr>
+          <tr><td>(3)</td><td>Σ<sub>j</sub> x<sub>0j</sub> ≤ K</td><td data-t="a.r3">flota</td></tr>
+          <tr class="q"><td>(4)</td><td>u<sub>i</sub> − u<sub>j</sub> + Q x<sub>ij</sub> ≤ Q − q<sub>j</sub><span class="q-l" data-t="a.q">¿sobra?</span></td><td>∀ i ≠ j</td></tr>
+          <tr><td>(5)</td><td>q<sub>i</sub> ≤ u<sub>i</sub> ≤ Q</td><td>∀ i ∈ C</td></tr>
+        </table>
+      </div>
+      <div class="cap" data-t="a.c">Fig. 5. La pregunta de la tesis sobre una formulación clásica del CVRP. Esquema ilustrativo.</div>
+      <h3 data-t="a.h">Restricciones redundantes en modelos VRP</h3>
+      <div class="meta" data-t="a.k">Tesis de licenciatura, 2026</div>
+      <p data-t="a.p">Estudié formulaciones MILP del problema de rutas de vehículos y sus variantes, identifiqué restricciones que no cambian el conjunto de soluciones y comparé formulaciones alternativas en instancias de benchmark para reducir el tamaño del modelo y mejorar el rendimiento del solver.</p>
+      <ul class="pills"><li>Python</li><li>MILP</li><li data-t="a.t1">Teoría poliédrica</li><li data-t="a.t2">Optimización combinatoria</li></ul>
+    </article>
+
+    <article class="proj">
+      <div class="shot" data-w="1000">
+        <div class="app" style="width:1000px;background:#f5f7fa">
+          <div class="chrome"><i></i><i></i><i></i><span>localhost:5173/dashboard/director/home</span></div>
+          <div style="display:flex;gap:22px;padding:18px">
+            <aside style="width:200px;flex:none;border-radius:12px;background:linear-gradient(135deg,#37474f,#212121);color:#fff;padding:20px 14px;min-height:500px">
+              <div style="font-weight:700;font-size:16px;text-align:center;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.15);margin-bottom:14px">DownTrack</div>
+              <div id="dtnav"></div>
+            </aside>
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;color:#607d8b;font-size:13px;margin:4px 0 30px"><span>dashboard / <b style="color:#263238">home</b></span><span>Director</span></div>
+              <div id="dtcards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:34px"></div>
+              <div style="display:grid;grid-template-columns:1fr 1.25fr;gap:18px">
+                <div style="background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:16px">
+                  <div style="font-weight:600;color:#263238;margin-bottom:6px">Equipment Status</div>
+                  <svg id="dtpie" viewBox="0 0 220 180" width="100%"></svg>
+                  <div style="display:flex;gap:12px;justify-content:center;font-size:12px;color:#455a64"><span style="color:#4A90E2">● Active</span><span style="color:#d79b00">● Maintenance</span><span style="color:#E94E77">● Inactive</span></div>
+                </div>
+                <div style="background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:16px">
+                  <svg id="dtline" viewBox="0 0 400 200" width="100%"></svg>
+                  <div style="font-weight:600;color:#263238;margin-top:6px">Decommissions by Month</div>
+                  <div style="font-size:12.5px;color:#607d8b;line-height:1.4">This metric reflects the number of decommissioning proposals accepted each month.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cap" data-t="c.c">Fig. 6. Panel del director, recreado desde home_director.jsx. Cifras de ejemplo.</div>
+      <h3>DownTrack</h3>
+      <div class="meta" data-t="c.k">Aplicación full-stack, 2025. Proyecto en equipo.</div>
+      <p data-t="c.p">Gestión de bajas técnicas para una empresa de infocomunicaciones: inventario, bajas, traslados, mantenimientos y evaluación de técnicos. Backend en .NET 8 con Arquitectura Clean, Entity Framework Core y MySQL, APIs REST, reportes en PDF y un panel por rol.</p>
+      <ul class="pills"><li>C#</li><li>.NET 8</li><li>ASP.NET Core</li><li>EF Core</li><li>MySQL</li><li>React</li></ul>
+      <a class="more" href="https://github.com/amabe418/DownTrack" data-t="repo">Ver repositorio</a>
+    </article>
+
+    <article class="proj">
+      <div class="shot" data-w="960">
+        <div class="app" style="width:960px;background:#fff;font-family:'Source Sans Pro',system-ui,sans-serif;color:#31333f">
+          <div class="chrome"><i></i><i></i><i></i><span>localhost:8501</span></div>
+          <div style="padding:18px 60px 30px">
+            <hr style="border:0;border-top:1px solid #e6e6ea;margin:6px 0 18px">
+            <div style="font-size:34px;font-weight:700;margin-bottom:14px">📂 Tag-based File System</div>
+            <div style="font-size:22px;font-weight:600;margin-bottom:10px">📖 Archivos disponibles</div>
+            <div style="font-size:14px;margin-bottom:4px">Filtrar por etiquetas (separadas por comas):</div>
+            <div style="background:#f0f2f6;border-radius:8px;padding:9px 12px;font-size:15px;margin-bottom:16px">tesis, vrp</div>
+            <div id="tfs"></div>
+            <div style="display:flex;justify-content:center;align-items:center;gap:40px;margin:14px 0 22px;font-size:14px">
+              <span class="stbtn" style="opacity:.45">⬅️ Anterior</span><b>Página 1 de 2</b><span class="stbtn">Siguiente ➡️</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 50px">
+              <span class="stbtn">➕ Agregar archivo(s)</span><span class="stbtn">🔖➕ Agregar etiqueta(s)</span><span class="stbtn">🔖❌ Eliminar etiqueta(s)</span><span class="stbtn">🗑️ Eliminar archivo(s)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cap" data-t="t.c">Fig. 7. La GUI en Streamlit, recreada desde gui/web.py. Archivos de ejemplo.</div>
+      <h3>Tag-based File System</h3>
+      <div class="meta" data-t="t.k">Sistemas distribuidos, 2025. Con un compañero.</div>
+      <p data-t="t.p">Un sistema de archivos donde no hay carpetas: cada archivo lleva etiquetas y se encuentra combinándolas. Una API HTTP en Python indexa, busca, añade y borra archivos y etiquetas; la GUI en Streamlit y una CLI la consumen; el servicio corre en contenedores sobre Docker Swarm.</p>
+      <ul class="pills"><li>Python</li><li>Streamlit</li><li>REST API</li><li>Docker Swarm</li><li data-t="t.t1">Indexación</li></ul>
+      <a class="more" href="https://github.com/amabe418/Tag-based-File-System" data-t="repo">Ver repositorio</a>
+    </article>
+
+    <article class="proj">
+      <div class="phonewrap"><div class="shot phone" data-w="360">
+        <div class="app" style="width:360px;background:#cfd9c4">
+          <div style="background:#517da2;color:#fff;padding:12px 14px;display:flex;align-items:center;gap:10px">
+            <span style="width:36px;height:36px;border-radius:50%;background:#2b5278;display:grid;place-items:center;font-weight:600">UH</span>
+            <span><b style="display:block;font-size:15px">Deportes UH</b><span style="font-size:12px;opacity:.8">bot</span></span>
+          </div>
+          <div id="tg" style="padding:12px 10px 16px;display:flex;flex-direction:column;gap:8px;font-size:14px"></div>
+        </div>
+      </div></div>
+      <div class="cap" data-t="e.c">Fig. 8. El comando /horario en Telegram. Datos de ejemplo.</div>
+      <h3 data-t="e.h">Bot de deportes UH</h3>
+      <div class="meta" data-t="e.k">Bot de Telegram, 2025. Para la Universidad de La Habana.</div>
+      <p data-t="e.p">Horarios de entrenamiento, deportes, profesores e instalaciones con ubicación en el mapa. Incluye registro de usuarios, panel de administración con subida de fotos, persistencia en JSON y despliegue en Docker con volúmenes.</p>
+      <ul class="pills"><li>Python</li><li>python-telegram-bot</li><li>Docker</li></ul>
+      <a class="more" href="https://github.com/amabe418/Bot_deporte_UH" data-t="repo">Ver repositorio</a>
+    </article>
+
+    <h3 style="font-family:'Hanken Grotesk',sans-serif;font-size:14px;font-weight:600;margin:8px 0 12px" data-t="otros">Otros proyectos</h3>
+    <ul class="idx" id="idx"></ul>
+  </section>
+
+  <section id="experiencia">
+    <h2 class="h"><span>§3</span><span style="font:inherit;color:inherit" data-t="n3">Experiencia</span></h2>
+    <ul class="jobs">
+      <li><time data-t="j1d">mar. – sep. 2025</time><div><h3 data-t="j1h">Backend Developer y tester, Citmatel</h3><p data-t="j1p">Desarrollé y mantuve componentes de backend y APIs REST para aplicaciones distribuidas. Diseñé pruebas funcionales, de integración, de regresión y de API, y corregí defectos junto a los equipos de producto y QA.</p></div></li>
+      <li><time data-t="j2d">dic. 2024 – feb. 2025</time><div><h3>Backend Developer, DATYS</h3><p data-t="j2p">Diseñé pipelines de CI/CD en Azure DevOps para build, pruebas automatizadas y despliegue, e integré las pruebas en CI para reducir el trabajo manual en cada release.</p></div></li>
+      <li><time>2026</time><div><h3 data-t="edh">Licenciatura en Ciencia de la Computación, Universidad de La Habana</h3><p data-t="edp">Algoritmos, bases de datos, sistemas distribuidos, IA y aprendizaje automático, recuperación de información y optimización.</p></div></li>
+    </ul>
+    <dl class="sk" style="margin-top:20px">
+      <div><dt>Machine learning</dt><dd data-t="k2d">scikit-learn, PyTorch, TensorFlow, GPyTorch, MLflow; clasificación, regresión, clustering, ajuste de hiperparámetros, validación cruzada, optimización bayesiana, meta-aprendizaje</dd></div>
+      <div><dt>NLP e IA</dt><dd data-t="k8d">LLMs y APIs de LLM, RAG, embeddings, búsqueda semántica, FAISS, sistemas multiagente</dd></div>
+      <div><dt data-t="k3">Análisis de datos</dt><dd data-t="k3d">Pandas, NumPy, Matplotlib, Jupyter; EDA, limpieza de datos, estadística, pruebas de hipótesis, series temporales, simulación</dd></div>
+      <div><dt data-t="k9">Ingeniería de datos</dt><dd data-t="k9d">ETL, Kafka, Spark Structured Streaming, HDFS, Hive, Parquet, PostgreSQL, MongoDB, Redis</dd></div>
+      <div><dt>Backend</dt><dd>Python, C#, SQL, .NET 8, ASP.NET Core, EF Core, FastAPI, Flask, Django</dd></div>
+      <div><dt data-t="k4">Optimización</dt><dd data-t="k4d">MILP, VRP, Gurobi, HiGHS, GLPK</dd></div>
+      <div><dt data-t="k6">Infraestructura</dt><dd>Docker, Docker Swarm, Azure DevOps, CI/CD, Linux, Git</dd></div>
+      <div><dt data-t="k7">Idiomas</dt><dd data-t="k7d">Español nativo, inglés avanzado</dd></div>
+    </dl>
+  </section>
+
+  <section id="contacto" class="contact">
+    <h2 class="h"><span>§4</span><span style="font:inherit;color:inherit" data-t="n4">Contacto</span></h2>
+    <h2 data-t="ch">¿Tienes datos y un problema que resolver con ellos?</h2>
+    <p data-t="cp">Busco puestos de machine learning, datos o backend, en remoto o en La Habana. Escríbeme a</p>
+    <a class="mail" href="mailto:valienteamalia418@gmail.com">valienteamalia418@gmail.com</a>
+    <footer data-t="foot">© 2026 Amalia Beatriz Valiente Hinojosa. Las interfaces de los proyectos están recreadas a partir de su código.</footer>
+  </section>
+</main>
+</div>
+
+<script>
+{
+const T={en:{role:"Software engineer: machine learning, data and backend",
+tag:"I train models, build data pipelines and reliable backends, and use mathematical optimization when there are decisions to make.",
+n0:"About",n1:"Projects",n3:"Experience",n4:"Contact",
+f1:"Fig. 1. Three vehicles, fourteen customers, one depot. My thesis asks which constraints in these models are unnecessary.",
+ab1:"I graduated in Computer Science from the <b>University of Havana</b> in 2026. I work on three fronts that overlap: <b>machine learning</b> (meta-learning, Bayesian hyperparameter optimization, NLP and RAG), <b>data analysis and engineering</b> (EDA, statistics, streaming pipelines with Kafka and Spark) and <b>backend</b> (REST APIs in Python and .NET).",
+ab2:"Professionally I've been a backend developer at <b>Citmatel</b> and <b>DATYS</b>, building and testing APIs and setting up CI/CD pipelines. My thesis was on <b>redundant constraints in vehicle routing models</b>, which is where my taste for models you can measure and improve comes from.",
+"m.ct":"Normalized regret after 30 evaluations","m.lo":"Lower is better",
+"m.c":"Fig. 2. Results of the FSBO module with K-fold cross-validation, as reported in the repository's README_FSBO.md.",
+"m.h":"Meta-learning for AutoML: MetaBu + FSBO","m.k":"Machine learning, 2026. Team project.",
+"m.p1":"Choosing an algorithm and its hyperparameters for a new dataset is expensive: every trial means training a full model. This project reuses what was learned on earlier tasks to start in a better place and get there sooner.",
+"m.p2":"<b>MetaBu</b> learns meta-features of datasets to recommend which algorithms and configurations to try first. <b>FSBO</b> (Few-Shot Bayesian Optimization) pretrains a Deep Kernel GP surrogate on many tasks and transfers it to the new one, so Bayesian optimization needs only a few evaluations. We compared it with random search and GP-RS on AdaBoost, Random Forest, SVM and AutoSklearn.",
+"m.t1":"Bayesian optimization",
+"t.c":"Fig. 7. The Streamlit GUI, recreated from gui/web.py. Example files.","t.k":"Distributed systems, 2025. With a classmate.",
+"t.p":"A file system with no folders: every file carries tags and you find it by combining them. A Python HTTP API indexes, searches, adds and deletes files and tags; the Streamlit GUI and a CLI consume it; the service runs in containers on Docker Swarm.",
+"t.t1":"Indexing",
+k2d:"scikit-learn, PyTorch, TensorFlow, GPyTorch, MLflow; classification, regression, clustering, hyperparameter tuning, cross-validation, Bayesian optimization, meta-learning",
+k8d:"LLMs and LLM APIs, RAG, embeddings, semantic search, FAISS, multi-agent systems",
+k3d:"Pandas, NumPy, Matplotlib, Jupyter; EDA, data cleaning, statistics, hypothesis testing, time series, simulation",
+k9:"Data engineering",k9d:"ETL, Kafka, Spark Structured Streaming, HDFS, Hive, Parquet, PostgreSQL, MongoDB, Redis",
+"a.r3":"fleet","a.q":"redundant?","a.c":"Fig. 5. The thesis question on a classic CVRP formulation. Illustrative sketch.",
+"a.h":"Redundant constraints in VRP models","a.k":"Undergraduate thesis, 2026",
+"a.p":"I studied MILP formulations of the vehicle routing problem and its variants, identified constraints that leave the set of solutions unchanged, and compared alternative formulations on benchmark instances to shrink the model and speed up the solver.",
+"a.t1":"Polyhedral theory","a.t2":"Combinatorial optimization",
+"b.c":"Fig. 4. Streamlit interface, recreated from app/app.py. Example answer.","b.k":"Information retrieval and LLMs, 2025. Team of four.",
+"b.p":"A multi-agent RAG assistant for bartenders: a crawler collects the knowledge, an ontology structures it, embeddings and FAISS retrieve relevant passages, metaheuristics tune the ranking and Mistral writes the answer.",
+repo:"View repository",
+"c.c":"Fig. 6. Director dashboard, recreated from home_director.jsx. Example figures.","c.k":"Full-stack application, 2025. Team project.",
+"c.p":"Technical downtime management for a telecom company: inventory, decommissions, transfers, maintenance and technician evaluation. A .NET 8 backend with Clean Architecture, Entity Framework Core and MySQL, REST APIs, PDF reports and a dashboard per role.",
+"d.c":"Fig. 3. Flask dashboard, recreated from board/templates/index.html. Example values.","d.h":"Energy consumption prediction","d.k":"Data engineering, 2025. With Noel Pérez Calvo.",
+"d.p":"A real-time pipeline over more than two million readings: a Python producer publishes to Kafka, Spark Structured Streaming transforms and stores them in HDFS as Parquet, Hive serves SQL queries and a dashboard shows the data live. It all runs on Docker Compose.",
+"e.c":"Fig. 8. The /horario command in Telegram. Example data.","e.h":"UH sports bot","e.k":"Telegram bot, 2025. For the University of Havana.",
+"e.p":"Training schedules, sports, coaches and facilities with their location on the map. Includes user sign-up, an admin panel with photo upload, JSON persistence and a Docker deployment with volumes.",
+otros:"Other projects",j1d:"Mar – Sep 2025",j1h:"Backend developer and tester, Citmatel",
+j1p:"Built and maintained backend components and REST APIs for distributed applications. Designed functional, integration, regression and API tests, and fixed defects with the product and QA teams.",
+j2d:"Dec 2024 – Feb 2025",j2p:"Designed Azure DevOps CI/CD pipelines for build, automated testing and deployment, and integrated tests into CI to cut manual work on every release.",
+edh:"B.Sc. in Computer Science, University of Havana",edp:"Algorithms, databases, distributed systems, AI and machine learning, information retrieval and optimization.",
+k1:"Languages",k3:"Data analysis",k4:"Optimization",k4d:"MILP, VRP, Gurobi, HiGHS, GLPK",k6:"Infrastructure",k7:"Languages spoken",k7d:"Spanish (native), English (advanced)",
+ch:"Have data and a problem to solve with it?",cp:"I'm looking for machine learning, data or backend roles, remote or in Havana. Write to me at",
+foot:"© 2026 Amalia Beatriz Valiente Hinojosa. Project interfaces are recreated from their code."}};
+
+const IDX=[
+ ["2025","Medical ER Simulation","https://github.com/amabe418/Medical_Emergency_Room_Simulation",{es:"Simulación de eventos discretos de una sala de urgencias y análisis estadístico de esperas, utilización y cuellos de botella.",en:"Discrete-event simulation of an emergency room, with statistical analysis of waiting times, utilization and bottlenecks."},"Python, Pandas"],
+ ["2025","H.U.L.K Compiler","https://github.com/amabe418/H.U.L.K-Compiler",{es:"Compilador del lenguaje H.U.L.K.",en:"A compiler for the H.U.L.K language."},"C++"],
+ ["2025","Statistical Analysis","https://github.com/amabe418/Statistical-Analysis",{es:"Análisis estadístico de datos de cáncer de pulmón: EDA, pruebas de hipótesis y modelos.",en:"Statistical analysis of lung cancer data: EDA, hypothesis tests and models."},"Python, Jupyter"],
+ ["2025","Fractal Generator","https://github.com/amabe418/Fractal_Generator",{es:"Generador de fractales.",en:"A fractal generator."},"Haskell"],
+ ["2023","Moogle!","https://github.com/amabe418/Moogle-",{es:"Buscador de documentos por relevancia.",en:"A document search engine ranked by relevance."},"C#"]];
+
+const html=document.documentElement,base={};
+document.querySelectorAll("[data-t]").forEach(e=>base[e.dataset.t]=e.innerHTML);
+function setLang(l){
+  html.lang=l;
+  document.querySelectorAll("[data-t]").forEach(e=>{const k=e.dataset.t;e.innerHTML=l==="en"&&T.en[k]!=null?T.en[k]:base[k]});
+  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===l));
+  document.getElementById("idx").innerHTML=IDX.map(r=>`<li><a href="${r[2]}"><span class="y">${r[0]}</span><span><span class="n">${r[1]}</span><span class="d">${r[3][l]}</span></span><span class="s">${r[4]}</span></a></li>`).join("");
+  try{localStorage.setItem("lang",l)}catch(e){}
+}
+let start="es";try{start=localStorage.getItem("lang")||((navigator.language||"es").startsWith("es")?"es":"en")}catch(e){}
+document.querySelectorAll(".lang button").forEach(b=>b.addEventListener("click",()=>setLang(b.dataset.lang)));
+setLang(start);
+
+/* Fig 1 */
+const svg=document.getElementById("vrp"),D=[300,220];
+const C=[[118,82],[200,48],[262,110],[158,160],[86,186],[420,60],[508,112],[470,190],[372,140],[548,226],[446,320],[352,392],[220,378],[142,308]];
+const R=[[2,1,0,4,3],[8,5,6,9,7],[10,11,12,13]].map(r=>r.map(i=>C[i]));
+const cols=["#123f7a","#c23a2b","#1d7a52"];let s="";
+R.forEach((r,k)=>{s+=`<polyline class="route" pathLength="1" points="${[D,...r,D].map(q=>q.join(",")).join(" ")}" stroke="${cols[k]}" style="animation-delay:${.3+k*.5}s"/>`});
+C.forEach(c=>s+=`<circle class="cust" cx="${c[0]}" cy="${c[1]}" r="7"/>`);
+s+=`<rect x="${D[0]-10}" y="${D[1]-10}" width="20" height="20" fill="#16181d"/>`;svg.innerHTML=s;
+
+/* active section in index */
+const links=[...document.querySelectorAll(".toc a")];
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id))}),{rootMargin:"-40% 0px -55% 0px"});
+document.querySelectorAll("main section").forEach(x=>io.observe(x));
+
+/* NR chart (values from README_FSBO.md) */
+{const rows=[["AdaBoost",.189,.195,.197],["Random Forest",.230,.253,.259],["LibSVM SVC",.196,.217,.200],["AutoSklearn",.332,.341,.334]],lo=.17,hi=.36,x=v=>((v-lo)/(hi-lo)*100).toFixed(1)+"%";
+document.getElementById("nr").innerHTML=rows.map(r=>{const a=Math.min(r[1],r[2],r[3]),b=Math.max(r[1],r[2],r[3]);return `<div class="nrrow"><span>${r[0]}</span><span class="nrtrack"><b style="left:${x(a)};width:calc(${x(b)} - ${x(a)})"></b><i style="left:${x(r[2])};background:#9aa0aa"></i><i style="left:${x(r[3])};background:var(--red)"></i><i style="left:${x(r[1])};background:var(--blue)"></i></span><span>${r[1].toFixed(3)}</span></div>`}).join("")+`<div class="nrrow" style="padding-top:2px"><span></span><span class="nrtrack" style="height:14px">${[.2,.25,.3,.35].map(t=>`<em style="position:absolute;left:${x(t)};transform:translateX(-50%);font-size:11.5px;color:var(--faint);font-style:normal">${t.toFixed(2)}</em>`).join("")}</span><span></span></div>`}
+/* Tag FS rows */
+{const f=[["tesis_vrp_final.pdf","tesis, vrp, milp"],["formulaciones_cvrp.tex","vrp, latex, tesis"],["resultados_benchmark.csv","vrp, datos, tesis"],["presentacion_defensa.pptx","tesis, defensa"],["instancias_augerat.zip","vrp, benchmark"]];
+document.getElementById("tfs").innerHTML=`<div style="display:grid;grid-template-columns:7fr 5fr 3fr;font-weight:700;font-size:17px;padding-bottom:8px;border-bottom:1px solid #e6e6ea"><span>Nombre</span><span>Etiquetas</span><span></span></div>`+f.map(r=>`<div style="display:grid;grid-template-columns:7fr 5fr 3fr;align-items:center;padding:9px 0;border-bottom:1px solid #e6e6ea;font-size:15px"><span>${r[0]}</span><span>${r[1]}</span><span><span class="stbtn">Descargar</span></span></div>`).join("")}
+/* line path helper */
+const path=(v,W,H,p,mx)=>{const m=mx||Math.max(...v);return v.map((y,i)=>`${i?"L":"M"}${(p+i*(W-2*p)/(v.length-1)).toFixed(1)},${(H-p-(y/m)*(H-2*p)).toFixed(1)}`).join("")};
+
+/* DownTrack */
+const nav=["Home","Inventory","Decommissions","Transfers","Maintenances","Evaluations","Technicians"];
+document.getElementById("dtnav").innerHTML=nav.map((n,i)=>`<div style="padding:10px 12px;border-radius:8px;margin-bottom:4px;font-size:13.5px;${i?"opacity:.8":"background:linear-gradient(135deg,#fff,#eceff1);color:#212121;font-weight:600"}">${n}</div>`).join("");
+const cards=[["Inventory:","1,284","Active Equipment","M4 7l8-4 8 4v10l-8 4-8-4z"],["Decommissions","96","Total Decommissions","M5 12h14M12 3a9 9 0 100 18 9 9 0 000-18z"],["Equipment Under Maintenance:","37","Total Equipment Under Maintenance","M14 6l4 4-8 8H6v-4z"]];
+document.getElementById("dtcards").innerHTML=cards.map(c=>`<div style="background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);position:relative"><div style="position:absolute;top:-14px;left:14px;width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,#616161,#212121);box-shadow:0 4px 10px rgba(0,0,0,.25);display:grid;place-items:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="${c[3]}"/></svg></div><div style="text-align:right;padding:14px 14px 10px 72px"><div style="font-size:12.5px;color:#607d8b">${c[0]}</div><div style="font-size:24px;font-weight:600;color:#263238">${c[1]}</div></div><div style="border-top:1px solid #eceff1;padding:10px 14px;font-size:13px;color:#607d8b">${c[2]}</div></div>`).join("");
+{let a=-Math.PI/2,o="";[[72,"#4A90E2"],[18,"#FFBB28"],[10,"#E94E77"]].forEach(([v,c])=>{const b=a+v/100*2*Math.PI,l=b-a>Math.PI?1:0;o+=`<path d="M110,90 L${110+75*Math.cos(a)},${90+75*Math.sin(a)} A75,75 0 ${l} 1 ${110+75*Math.cos(b)},${90+75*Math.sin(b)}Z" fill="${c}" stroke="#fff" stroke-width="2"/>`;a=b});document.getElementById("dtpie").innerHTML=o}
+{const v=[4,7,5,9,6,11,8,12,10,7,9,13],m=["J","F","M","A","M","J","J","A","S","O","N","D"],W=400,H=200,p=22;let o="";for(let i=0;i<4;i++)o+=`<line x1="${p}" x2="${W-p}" y1="${p+i*(H-2*p)/3}" y2="${p+i*(H-2*p)/3}" stroke="#eceff1"/>`;
+o+=`<path d="${path(v,W,H,p,14)}" fill="none" stroke="#E94E77" stroke-width="3" stroke-linecap="round"/>`;v.forEach((y,i)=>{const x=p+i*(W-2*p)/11;o+=`<circle cx="${x}" cy="${H-p-y/14*(H-2*p)}" r="4" fill="#E94E77"/><text x="${x}" y="${H-4}" font-size="10" fill="#90a4ae" text-anchor="middle">${m[i]}</text>`});document.getElementById("dtline").innerHTML=o}
+
+/* Energy */
+const ec=[["Potencia Activa Promedio","1.09","kW","linear-gradient(135deg,#667eea,#764ba2)"],["Voltaje Promedio","240.84","V","linear-gradient(135deg,#f093fb,#f5576c)"],["Intensidad Promedio","4.63","A","linear-gradient(135deg,#4facfe,#00f2fe)"],["Total Registros","2,049,280","registros","linear-gradient(135deg,#43e97b,#38f9d7)"]];
+document.getElementById("encards").innerHTML=ec.map(c=>`<div style="background:${c[3]};color:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.1);padding:20px"><div style="font-size:13px;font-weight:500;opacity:.9">${c[0]}</div><div style="font-size:28px;font-weight:700">${c[1]}</div><div style="font-size:12px;opacity:.8">${c[2]}</div></div>`).join("");
+{const v=[.6,.5,.45,.42,.5,.9,1.6,1.9,1.4,1.1,1.0,1.2,1.3,1.1,.95,1.0,1.3,2.1,2.6,2.4,2.0,1.6,1.1,.8],W=600,H=230,p=26;let o="";for(let i=0;i<5;i++)o+=`<line x1="${p}" x2="${W-p}" y1="${p+i*(H-2*p)/4}" y2="${p+i*(H-2*p)/4}" stroke="#e9ecef"/>`;
+const d=path(v,W,H,p,3);o+=`<path d="${d}L${W-p},${H-p}L${p},${H-p}Z" fill="rgba(13,110,253,.12)"/><path d="${d}" fill="none" stroke="#0d6efd" stroke-width="2.5"/>`;document.getElementById("enline").innerHTML=o;
+let b="";v.forEach((y,i)=>{const w=(280-40)/24,h=y/3*170;b+=`<rect x="${20+i*w+1}" y="${200-h}" width="${w-2}" height="${h}" fill="rgba(25,135,84,.75)"/>`});b+=`<line x1="20" x2="260" y1="200" y2="200" stroke="#adb5bd"/>`;document.getElementById("enbars").innerHTML=b}
+
+/* Telegram */
+const bub=(t,me)=>`<div style="align-self:${me?"flex-end":"flex-start"};max-width:82%;background:${me?"#effdde":"#fff"};border-radius:12px;${me?"border-bottom-right-radius:3px":"border-bottom-left-radius:3px"};padding:7px 10px;box-shadow:0 1px 1px rgba(0,0,0,.12);white-space:pre-line">${t}</div>`;
+const kb=["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
+document.getElementById("tg").innerHTML=bub("/horario",1)+bub("Selecciona un día para ver los entrenamientos:")+
+`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;max-width:82%">${kb.map(d=>`<div style="background:rgba(255,255,255,.6);border-radius:8px;text-align:center;padding:7px 0;font-size:13px;color:#2b5278;font-weight:500">${d}</div>`).join("")}</div>`+
+bub("<b>Martes</b>\n\n<b>Fútbol</b>\n4:00 pm, Estadio universitario\n\n<b>Voleibol</b>\n3:00 pm, Área deportiva\n\n<b>Ajedrez</b>\n2:00 pm, Facultad de Matemática")+bub("/listar_instalaciones",1);
+
+/* scale screenshots */
+document.querySelectorAll(".shot").forEach(s=>{const a=s.querySelector(".app"),w=+s.dataset.w;const fit=()=>{const k=s.clientWidth/w;a.style.transform=`scale(${k})`;s.style.height=a.offsetHeight*k+"px"};const ro=new ResizeObserver(fit);ro.observe(s);fit()});
+}
+</script>
+</body>
+</html>
